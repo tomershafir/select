@@ -28,6 +28,8 @@ static int _randomized_select(int *arr, int start, int end, int i, int comp_metr
 /* Reports the accepted number of comparisions to stdout. */
 static void report_comp_metric(int num_of_comp, char *funcname);
 
+static void print_arr(int *arr, int arr_length);
+
 /* Sorts the accetped array in place using insertion sort algorithm.
    Note: the accepted array is mutated. */
 /*static void insertion_sort(int *arr, int arr_length);*/
@@ -108,4 +110,12 @@ static void report_comp_metric(int num_of_comp, char *funcname) {
    Note: the accepted array is mutated. */
 int median_select(int *arr, int arr_length, int i) {
 
+}
+
+static void print_arr(int *arr, int arr_length) {
+  int j;
+  for(j = 0; j < arr_length; j++) {
+    printf("%d ", arr[j]);
+  }
+  printf("\n");
 }
