@@ -5,7 +5,7 @@
 #define SWAP_BY_PTR(ptr1, ptr2) \
   do { (*(ptr1)) += (*(ptr2)); \
        (*(ptr2)) = (*(ptr1)) - (*(ptr2)); \
-       (*(ptr1)) = (*(ptr2)) - (*(ptr1)); } \
+       (*(ptr1)) -= (*(ptr2)); } \
   while (0)
 
 typedef struct index_and_comp_metric {
