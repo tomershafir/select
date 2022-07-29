@@ -10,7 +10,7 @@ test: compile
 	@echo "testing ..."
 
 compile:
-
+	# checkout build in inference rules for C
 
 clean: clean_object_files
 	@echo "done"
