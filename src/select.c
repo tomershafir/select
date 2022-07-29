@@ -3,9 +3,9 @@
 #include <stdlib.h>
 
 #define SWAP_BY_PTR(ptr1, ptr2) \
-  do { (*(ptr1)) += (*(ptr2)); \
-       (*(ptr2)) = (*(ptr1)) - (*(ptr2)); \
-       (*(ptr1)) -= (*(ptr2)); } \
+  do { int __tmp = (*(ptr2)); \
+       (*(ptr2)) = (*(ptr1)); \
+       (*(ptr1)) = __tmp; } \
   while (0)
 
 typedef struct index_and_comp_metric {
@@ -96,7 +96,7 @@ static index_and_comp_metric randomized_partition(int *arr, int start, int end) 
   int random_offset;
 
   /* modulo retains pseudo randomness */
-  random_offset = rand() % (end - start);
+  random_offset = rand() % (end - start + 1);
   SWAP_BY_PTR(arr + start + random_offset, arr + end);
   return partition(arr, start, end);
 }
