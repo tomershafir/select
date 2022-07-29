@@ -3,7 +3,7 @@
 
 EXECUTABLE_NAME=a.out
 SRC_DIR=src
-TARGET_DIR=object
+TARGET_DIR=target
 
 all: build
 
