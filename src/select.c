@@ -1,8 +1,9 @@
 #include "select.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
-#define SWAP_BY_PTR(ptr1, ptr2) \
+#define SWAP_INT_BY_PTR(ptr1, ptr2) \
   do { int __tmp = (*(ptr2)); \
        (*(ptr2)) = (*(ptr1)); \
        (*(ptr1)) = __tmp; } \
@@ -37,6 +38,8 @@ static void print_arr(int *arr, int arr_length);
 /* Finds the ith smallest element in the accepted array and returns it and reports comparisions metric.
    Note: the accepted array is mutated. */
 int randomized_select(int *arr, int arr_length, int i) {
+  printf("select the %dth smallest of ", i);
+  print_arr(arr, arr_length);
   return _randomized_select(arr, 0, arr_length - 1, i, 0);
 }
 
@@ -80,10 +83,10 @@ static index_and_comp_metric partition(int *arr, int start, int end) {
     comp_counter++;
     if (arr[j] <= pivot) {
       target++;
-      SWAP_BY_PTR(arr + target, arr + j);
+      SWAP_INT_BY_PTR(arr + target, arr + j);
     }
   }
-  SWAP_BY_PTR(arr + target + 1, arr + end);
+  SWAP_INT_BY_PTR(arr + target + 1, arr + end);
 
   wrapper.index = target + 1;
   wrapper.comp_metric = comp_counter;
@@ -93,11 +96,13 @@ static index_and_comp_metric partition(int *arr, int start, int end) {
 /* Partitions the accepted array by a randomly chosen array element and returns it's new index and relevant comparisions metric.
    Note: the accepted array is mutated. */
 static index_and_comp_metric randomized_partition(int *arr, int start, int end) {
-  int random_offset;
+  int rndm, rndm_offset;
 
+  srand(time(0));
+  rndm = rand();
   /* modulo retains pseudo randomness */
-  random_offset = rand() % (end - start + 1);
-  SWAP_BY_PTR(arr + start + random_offset, arr + end);
+  rndm_offset = rndm % (end - start + 1);
+  SWAP_INT_BY_PTR(arr + start + rndm_offset, arr + end);
   return partition(arr, start, end);
 }
 
