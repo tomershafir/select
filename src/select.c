@@ -26,14 +26,23 @@ static index_and_comp_metric randomized_partition(int *arr, int start, int end);
    Note: the accepted array is mutated. */
 static int _randomized_select(int *arr, int start, int end, int i, int comp_metric);
 
-/* Reports the accepted number of comparisions to stdout. */
+/* Sorts the accetped array in place using insertion sort algorithm and returns comparisions metric.
+   Note: the accepted array is mutated. */
+static int insertion_sort(int *arr, int arr_length);
+
+/* Finds the ith smallest element in the accepted array and returns it and reports comparisions metric.
+   Note: the accepted array is mutated. */
+int _median_select(int *arr, int arr_length, int i, int comp_metric);
+
+/* Partitions the accepted array by val and returns it's new index and relevant comparisions metric.
+   Note: the accepted array is mutated. */
+static index_and_comp_metric partition_by(int *arr, int index);
+
+static void index_of(int *arr, int arr_length, int val);
+
 static void report_comp_metric(int num_of_comp);
 
 static void print_arr(int *arr, int arr_length);
-
-/* Sorts the accetped array in place using insertion sort algorithm.
-   Note: the accepted array is mutated. */
-/*static void insertion_sort(int *arr, int arr_length);*/
 
 /* Finds the ith smallest element in the accepted array and returns it and reports comparisions metric.
    Note: the accepted array is mutated. */
@@ -106,7 +115,6 @@ static index_and_comp_metric randomized_partition(int *arr, int start, int end) 
   return partition(arr, start, end);
 }
 
-/* Reports the accepted number of comparisions to stdout. */
 static void report_comp_metric(int num_of_comp) {
   printf("number of comparisons: %d\n", num_of_comp);
 }
@@ -114,6 +122,28 @@ static void report_comp_metric(int num_of_comp) {
 /* Finds the ith smallest element in the accepted array and returns it and reports comparisions metric.
    Note: the accepted array is mutated. */
 int median_select(int *arr, int arr_length, int i) {
+
+}
+
+/* Finds the ith smallest element in the accepted array and returns it and reports comparisions metric.
+   Note: the accepted array is mutated. */
+int _median_select(int *arr, int arr_length, int i, int comp_metric) {
+  
+}
+
+/* Sorts the accetped array in place using insertion sort algorithm and returns comparisions metric.
+   Note: the accepted array is mutated. */
+static int insertion_sort(int *arr, int arr_length) {
+
+}
+
+/* Partitions the accepted array by val and returns it's new index and relevant comparisions metric.
+   Note: the accepted array is mutated. */
+static index_and_comp_metric partition_by(int *arr, int val) {
+
+}
+
+static void index_of(int *arr, int arr_length, int val) {
 
 }
 
