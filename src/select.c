@@ -27,7 +27,7 @@ static index_and_comp_metric randomized_partition(int *arr, int start, int end);
 static int _randomized_select(int *arr, int start, int end, int i, int comp_metric);
 
 /* Reports the accepted number of comparisions to stdout. */
-static void report_comp_metric(int num_of_comp, char *funcname);
+static void report_comp_metric(int num_of_comp);
 
 static void print_arr(int *arr, int arr_length);
 
@@ -38,7 +38,7 @@ static void print_arr(int *arr, int arr_length);
 /* Finds the ith smallest element in the accepted array and returns it and reports comparisions metric.
    Note: the accepted array is mutated. */
 int randomized_select(int *arr, int arr_length, int i) {
-  printf("select the %dth smallest of ", i);
+  printf("randomized_select() the %dth smallest of ", i);
   print_arr(arr, arr_length);
   return _randomized_select(arr, 0, arr_length - 1, i, 0);
 }
@@ -50,7 +50,7 @@ static int _randomized_select(int *arr, int start, int end, int i, int comp_metr
   index_and_comp_metric wrapper;
   
   if (start == end) {
-    report_comp_metric(comp_metric, "randomized_select");
+    report_comp_metric(comp_metric);
     return arr[start];
   }
 
@@ -59,7 +59,7 @@ static int _randomized_select(int *arr, int start, int end, int i, int comp_metr
   left_subarr_including_pivot_length = wrapper.index - start + 1;
   
   if (left_subarr_including_pivot_length == i) {
-    report_comp_metric(comp_metric, "randomized_select");
+    report_comp_metric(comp_metric);
     return arr[wrapper.index];
   }
 
@@ -107,8 +107,8 @@ static index_and_comp_metric randomized_partition(int *arr, int start, int end) 
 }
 
 /* Reports the accepted number of comparisions to stdout. */
-static void report_comp_metric(int num_of_comp, char *funcname) {
-  printf("Number of comparisons by %s is %d\n", funcname, num_of_comp);
+static void report_comp_metric(int num_of_comp) {
+  printf("number of comparisons: %d\n", num_of_comp);
 }
 
 /* Finds the ith smallest element in the accepted array and returns it and reports comparisions metric.
