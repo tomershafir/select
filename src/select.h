@@ -1,5 +1,5 @@
-#ifndef _SELECT_H
-#define _SELECT_H
+#ifndef __SELECT_H
+#define __SELECT_H
 
 /* Finds the ith smallest element in the accepted array and returns it and reports comparisions metric.
    Note: the accepted array is mutated. */

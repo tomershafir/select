@@ -38,7 +38,7 @@ value_and_comp_metric find_median_of_medians(int *arr, int arr_length, int comp_
 
 /* Sorts the accetped array in place using insertion sort algorithm and returns comparisions metric.
    Note: the accepted array is mutated. */
-static int insertion_sort(int *arr, int arr_length);
+static int insort(int *arr, int arr_length);
 
 /* Partitions the accepted array by val and returns it's new index and relevant comparisions metric.
    Note: the accepted array is mutated. */
@@ -147,7 +147,7 @@ int _median_select(int *arr, int arr_length, int i, int comp_metric, int seed) {
   int left_subarr_including_pivot_length;
 
   median_wrapper = find_median_of_medians(arr, arr_length, comp_metric, seed);
-  comp_metric += median_wrapper.comp_metric;
+  /* comp_metric += median_wrapper.comp_metric; */
   
   index_wrapper = partition_by(arr, 0, arr_length - 1, median_wrapper.value);
   comp_metric += index_wrapper.comp_metric;
@@ -183,7 +183,7 @@ value_and_comp_metric find_median_of_medians(int *arr, int arr_length, int comp_
   } 
 
   for (i = 0; i < arr_length; i+= seed) {
-    comp_metric += insertion_sort(arr + i, (arr_length - i + 1 < seed ? arr_length - i + 1 : seed));
+    comp_metric += insort(arr + i, (arr_length - i + 1 < seed ? arr_length - i + 1 : seed));
 
     medians[medians_index++] = arr[i + (int) floor((arr_length - i + 1)/2)];
   }
@@ -195,7 +195,7 @@ value_and_comp_metric find_median_of_medians(int *arr, int arr_length, int comp_
 
 /* Sorts the accetped array in place using insertion sort algorithm and returns comparisions metric.
    Note: the accepted array is mutated. */
-static int insertion_sort(int *arr, int arr_length) {
+static int insort(int *arr, int arr_length) {
   int i, j, key;
   int comp_metric;
 
@@ -222,7 +222,7 @@ static value_and_comp_metric partition_by(int *arr, int start, int end, int val)
   SWAP_INT_BY_PTR(arr + tmp.value, arr + end);
 
   wrapper = partition(arr, start, end);
-  wrapper.comp_metric += tmp.comp_metric;
+  /* wrapper.comp_metric += tmp.comp_metric; */
   return wrapper;
 }
 
