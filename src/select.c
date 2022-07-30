@@ -168,24 +168,26 @@ int _median_select(int *arr, int arr_length, int i, int comp_metric, int seed) {
 
 /* Finds the median of medians of the accepted array. */
 value_and_comp_metric find_median_of_medians(int *arr, int arr_length, int comp_metric, int seed) {
-  int num_of_medians, i, medians_index;
+  int num_of_medians, i, medians_index, subarr_length;
   int *medians;
   value_and_comp_metric wrapper, tmp;
   
-  num_of_medians = (int) ceil(arr_length/seed);
+  num_of_medians = (int) ceil((double) arr_length/seed);
   medians = (int *) malloc(num_of_medians * sizeof(int));
   medians_index = 0;
   
   if (arr_length <= seed) {
-    wrapper.value = arr[(int) floor(arr_length/2)];
+    wrapper.value = arr[(int) floor(arr_length/2.0)];
     wrapper.comp_metric = comp_metric;
     return wrapper;
   } 
 
   for (i = 0; i < arr_length; i+= seed) {
-    comp_metric += insort(arr + i, (arr_length - i + 1 < seed ? arr_length - i + 1 : seed));
+    subarr_length = (arr_length - i < seed ? arr_length - i : seed);
+    
+    comp_metric += insort(arr + i, subarr_length);
 
-    medians[medians_index++] = arr[i + (int) floor((arr_length - i + 1)/2)];
+    medians[medians_index++] = arr[i + (int) floor(subarr_length/2.0)];
   }
 
   tmp = find_median_of_medians(medians, num_of_medians, comp_metric, seed);
