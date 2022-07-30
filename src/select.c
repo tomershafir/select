@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
 
 #define SWAP_INT_BY_PTR(ptr1, ptr2) \
@@ -16,6 +17,10 @@ typedef struct index_and_comp_metric {
   int comp_metric;
 } index_and_comp_metric;
 
+typedef struct median_and_comp_metric {
+  int median;
+  int comp_metric;
+} median_and_comp_metric;
 
 /* Finds the ith smallest element in the accepted array and returns it and reports comparisions metric.
    Note: the accepted array is mutated. */
@@ -32,6 +37,9 @@ static index_and_comp_metric partition(int *arr, int start, int end);
 /* Finds the ith smallest element in the accepted array and returns it and reports comparisions metric.
    Note: the accepted array is mutated. */
 int _median_select(int *arr, int arr_length, int i, int comp_metric);
+
+/* Finds the median of medians of the accepted array. */
+median_and_comp_metric find_median_of_medians(int *arr, int arr_length, int comp_metric);
 
 /* Sorts the accetped array in place using insertion sort algorithm and returns comparisions metric.
    Note: the accepted array is mutated. */
@@ -71,7 +79,7 @@ static int _randomized_select(int *arr, int start, int end, int i, int comp_metr
   comp_metric += wrapper.comp_metric;
   left_subarr_including_pivot_length = wrapper.index - start + 1;
   
-  if (left_subarr_including_pivot_length == i) {
+  if (i == left_subarr_including_pivot_length) {
     report_comp_metric(comp_metric);
     return arr[wrapper.index];
   }
@@ -132,7 +140,55 @@ int median_select(int *arr, int arr_length, int i) {
 /* Finds the ith smallest element in the accepted array and returns it and reports comparisions metric.
    Note: the accepted array is mutated. */
 int _median_select(int *arr, int arr_length, int i, int comp_metric) {
+  median_and_comp_metric median_wrapper;
+  index_and_comp_metric index_wrapper;
+  int left_subarr_including_pivot_length;
 
+  median_wrapper = find_median_of_medians(arr, arr_length, comp_metric);
+  comp_metric += median_wrapper.comp_metric;
+  
+  index_wrapper = partition_by(arr, 0, arr_length - 1, median_wrapper.median);
+  comp_metric += index_wrapper.comp_metric;
+
+  left_subarr_including_pivot_length = index_wrapper.index + 1;
+
+  if (i == left_subarr_including_pivot_length) {
+    report_comp_metric(comp_metric);
+    return median_wrapper.median;
+  }
+  
+  if (i < left_subarr_including_pivot_length) {
+    return _median_select(arr, left_subarr_including_pivot_length - 1, i, comp_metric);
+  } else {
+    return _median_select(arr + left_subarr_including_pivot_length, arr_length - left_subarr_including_pivot_length, i - left_subarr_including_pivot_length, comp_metric);
+  }
+}
+
+/* Finds the median of medians of the accepted array. */
+median_and_comp_metric find_median_of_medians(int *arr, int arr_length, int comp_metric) {
+  int num_of_medians, i, medians_index;
+  int *medians;
+  median_and_comp_metric wrapper, tmp;
+  
+  num_of_medians = (int) ceil(arr_length/5);
+  medians = (int *) malloc(num_of_medians * sizeof(int));
+  medians_index = 0;
+  
+  if (arr_length <= 5) {
+    wrapper.median = arr[(int) floor(arr_length/2)];
+    wrapper.comp_metric = comp_metric;
+    return wrapper;
+  } 
+
+  for (i = 0; i < arr_length; i+= 5) {
+    comp_metric += insertion_sort(arr + i, (arr_length - i + 1 < 5 ? arr_length - i + 1 : 5));
+
+    medians[medians_index++] = arr[i + (int) floor((arr_length - i + 1)/2)];
+  }
+
+  tmp = find_median_of_medians(medians, num_of_medians, comp_metric);
+  free(medians);
+  return tmp;
 }
 
 /* Sorts the accetped array in place using insertion sort algorithm and returns comparisions metric.
