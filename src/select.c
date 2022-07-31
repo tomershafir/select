@@ -147,7 +147,7 @@ int _median_select(int *arr, int arr_length, int i, int comp_metric, int seed) {
   int left_subarr_including_pivot_length;
 
   median_wrapper = find_median_of_medians(arr, arr_length, comp_metric, seed);
-  /* comp_metric += median_wrapper.comp_metric; */
+  comp_metric += median_wrapper.comp_metric;
   
   index_wrapper = partition_by(arr, 0, arr_length - 1, median_wrapper.value);
   comp_metric += index_wrapper.comp_metric;
@@ -184,7 +184,7 @@ value_and_comp_metric find_median_of_medians(int *arr, int arr_length, int comp_
 
   for (i = 0; i < arr_length; i+= seed) {
     subarr_length = (arr_length - i < seed ? arr_length - i : seed);
-    
+
     comp_metric += insort(arr + i, subarr_length);
 
     medians[medians_index++] = arr[i + (int) floor(subarr_length/2.0)];
@@ -209,6 +209,9 @@ static int insort(int *arr, int arr_length) {
       comp_metric++;
       arr[j+1] = arr[j];
       j--;
+    }
+    if (j > -1) {
+      comp_metric++;
     }
     arr[j+1] = key;
   }
