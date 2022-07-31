@@ -26,11 +26,8 @@ $(TARGET_DIR)/main.o: $(SRC_DIR)/select.h $(SRC_DIR)/main.c
 $(TARGET_DIR)/select.o: $(SRC_DIR)/select.c $(SRC_DIR)/select.h
 	gcc -c -ansi -Wall -pedantic -g $(SRC_DIR)/select.c -o $@
 
-clean: clean_executable clean_object_files
+clean: clean_target
 	@echo "done"
-clean_executable:
-	@echo "clean executable ..."
-	rm -f "$$(find "$(TARGET_DIR)" -type f -name "$(EXECUTABLE_NAME)")"
-clean_object_files:
-	@echo "clean object files ..."
-	rm -f "$$(find "$(TARGET_DIR)" -type f -name "*.o")"
+clean_target:
+	@echo "clean target directory ..."
+	rm -rf "$(TARGET_DIR)"
